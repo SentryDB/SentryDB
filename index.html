@@ -1,415 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SentryDB — The Open Media & Tools Registry</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #030407;
-      --card-bg: rgba(13, 16, 26, 0.85);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(0, 242, 254, 0.35);
-      --cyan: #00f2fe;
-      --cyan-glow: rgba(0, 242, 254, 0.28);
-      --emerald: #00e599;
-      --emerald-glow: rgba(0, 229, 153, 0.25);
-      --heart: #ff3366;
-      --heart-glow: rgba(255, 51, 102, 0.25);
-      --discord: #5865F2;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #475569;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'Space Mono', monospace;
-      --ease: cubic-bezier(0.16, 1, 0.3, 1);
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
+  <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0b10;
+      --bubble-bg: rgba(20, 22, 32, 0.88);
+      --bubble-border: rgba(255, 255, 255, 0.1);
+      --accent-cyan: #00f2fe;
+      --accent-emerald: #00e599;
+      --accent-pink: #ff2a74;
+      --accent-purple: #9d5cf6;
+      --discord-color: #5865F2;
+      --donate-color: #f43f5e;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     body {
-      background-color: var(--bg);
-      background-image: 
-        radial-gradient(ellipse 70% 30% at 50% -10%, rgba(0, 242, 254, 0.08), transparent 70%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 36px 36px, 36px 36px;
-      color: var(--text);
-      font-family: var(--font-body);
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      padding: 18px 24px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(0, 229, 153, 0.08) 0%, transparent 40%);
     }
 
-    .main-nav-bar {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 8px 14px;
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    .header-wrapper {
       position: sticky;
-      top: 18px;
+      top: 16px;
       z-index: 1000;
-      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
-    }
-
-    .main-nav-bar:hover {
-      border-color: var(--border-glow);
-      box-shadow: 0 22px 54px rgba(0, 0, 0, 0.82), 0 0 24px var(--cyan-glow);
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      user-select: none;
-      padding-right: 16px;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .brand-cube {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #182236 0%, #0d121e 100%);
-      border: 1px solid var(--cyan);
-      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 16px var(--cyan-glow);
-      transition: all 0.25s var(--ease);
+      gap: 10px;
+      padding: 0 16px;
     }
 
-    .brand-group:hover .brand-cube {
-      transform: scale(1.08) rotate(-4deg);
-      box-shadow: 0 0 24px var(--cyan);
+    .bubble-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: fit-content;
+      min-width: 0;
+      padding: 5px 20px;
+      background: var(--bubble-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--bubble-border);
+      border-radius: 9999px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
     }
 
-    .brand-cube svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--cyan);
-      stroke-width: 2.2;
-      fill: none;
-    }
-
-    .brand-text {
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
+    .logo a {
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
       color: #fff;
+      display: inline-block;
+      letter-spacing: 0.5px;
+      transition: transform 0.25s ease;
     }
 
-    .brand-text span {
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--emerald) 100%);
+    .logo a:hover {
+      transform: scale(1.05);
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .nav-links-dock {
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 0 8px;
-    }
-
-    .nav-link-btn {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--text-muted);
-      font-size: 0.84rem;
-      font-weight: 600;
-      padding: 7px 14px;
+      gap: 5px;
+      padding: 6px 14px;
       border-radius: 9999px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      color: var(--text-dim);
       text-decoration: none;
-      transition: all 0.18s var(--ease);
-      white-space: nowrap;
-      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
 
-    .nav-link-btn:hover {
+    .nav-link:hover,
+    .nav-link.active {
       color: #fff;
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
     }
 
-    .nav-link-btn.active {
-      background: #171d2b;
-      color: #fff;
-      border-color: var(--cyan);
-      box-shadow: 0 0 16px var(--cyan-glow);
+    .arrow-down {
+      font-size: 0.6rem;
+      transition: transform 0.3s ease;
     }
 
-    .hub-dropdown-wrapper {
-      position: relative;
-    }
-
-    .hub-trigger-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .hub-trigger-btn .arrow-icon {
-      width: 10px;
-      height: 10px;
-      stroke: var(--text-muted);
-      stroke-width: 2.4;
-      fill: none;
-      transition: transform 0.25s var(--ease), stroke 0.2s var(--ease);
-    }
-
-    .hub-dropdown-wrapper:hover .hub-trigger-btn .arrow-icon,
-    .hub-dropdown-wrapper.open .hub-trigger-btn .arrow-icon {
-      stroke: #fff;
-    }
-
-    .hub-dropdown-wrapper.open .hub-trigger-btn .arrow-icon {
+    .hub-dropdown:hover .arrow-down {
       transform: rotate(180deg);
     }
 
-    .hub-flyout-panel {
+    .hub-dropdown {
+      position: relative;
+    }
+
+    .mega-menu::before {
+      content: "";
       position: absolute;
-      top: calc(100% + 10px);
+      top: -24px;
       left: 0;
-      width: 220px;
-      background: rgba(11, 14, 22, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 6px;
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--cyan-glow);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      opacity: 0;
-      transform: translateY(-6px) scale(0.97);
-      pointer-events: none;
-      transition: all 0.2s var(--ease);
-      z-index: 1100;
+      width: 100%;
+      height: 24px;
     }
 
-    .hub-dropdown-wrapper.open .hub-flyout-panel {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
-    .hub-item {
+    .mega-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px) scale(0.97);
+      background: rgba(17, 19, 29, 0.97);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--bubble-border);
+      border-radius: 9999px;
+      padding: 8px 14px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
+      gap: 8px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .hub-dropdown:hover .mega-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .category-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--bubble-border);
+      color: var(--text-dim);
       font-size: 0.82rem;
       font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 10px;
+      padding: 6px 16px;
+      border-radius: 9999px;
       cursor: pointer;
-      text-align: left;
       font-family: inherit;
-      transition: all 0.16s var(--ease);
+      transition: all 0.25s ease;
     }
 
-    .hub-item:hover {
-      background: rgba(255, 255, 255, 0.08);
+    .category-pill:hover {
       color: #fff;
-      padding-left: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
     }
 
-    .hub-item.selected {
-      color: var(--cyan);
-      background: rgba(0, 242, 254, 0.08);
+    .category-pill.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+      color: #03080e;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(0, 229, 153, 0.4);
     }
 
-    .hub-item-tag {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-    }
-
-    .actions-cluster {
+    .header-action-group {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .icon-click-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .search-btn,
+    .dice-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--bubble-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s var(--ease);
-      text-decoration: none;
+      transition: all 0.25s ease;
     }
 
-    .icon-click-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-1px);
+    .search-btn .material-symbols-outlined,
+    .dice-btn .material-symbols-outlined {
+      font-size: 19px;
     }
 
-    .icon-click-btn svg {
-      width: 17px;
-      height: 17px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
+    .search-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-cyan);
+      transform: scale(1.06);
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.35);
     }
 
-    .discord-btn svg {
-      fill: var(--discord);
-      stroke: none;
+    .dice-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-emerald);
+      transform: rotate(45deg) scale(1.06);
+      box-shadow: 0 0 14px rgba(0, 229, 153, 0.35);
     }
 
-    .donate-btn svg {
-      stroke: var(--heart);
-      stroke-width: 2.2;
+    .outside-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .donate-btn:hover {
-      box-shadow: 0 0 18px var(--heart-glow);
-    }
-
-    .btn-propose-cta {
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--emerald) 100%);
-      border: none;
-      color: #03080e;
-      font-weight: 800;
-      font-size: 0.86rem;
-      padding: 9px 18px;
-      border-radius: 9999px;
-      cursor: pointer;
+    .outside-bubble-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.22s var(--ease);
-      box-shadow: 0 0 20px var(--cyan-glow);
-      font-family: inherit;
-    }
-
-    .btn-propose-cta:hover {
-      background: linear-gradient(135deg, #38f4ff 0%, #1bf5a7 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 0 28px var(--emerald-glow);
-    }
-
-    .pop-search-bar {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 170px;
-      width: 320px;
-      background: rgba(11, 14, 22, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 9999px;
-      padding: 6px 12px 6px 16px;
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--cyan-glow);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(-6px) scale(0.97);
-      pointer-events: none;
-      transition: all 0.2s var(--ease);
-      z-index: 1100;
-    }
-
-    .pop-search-bar.open {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
-    .pop-search-bar input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.85rem;
-    }
-
-    .pop-search-bar input::placeholder {
-      color: var(--text-dim);
-    }
-
-    .kbd-chip {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 2px 7px;
-      border-radius: 6px;
-    }
-
-    .modal-viewport {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 3, 6, 0.85);
+      gap: 7px;
+      height: 44px;
+      padding: 0 16px;
+      background: var(--bubble-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.25s var(--ease);
+      border: 1px solid var(--bubble-border);
+      border-radius: 9999px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
-    .modal-viewport.open {
+    .outside-bubble-btn svg {
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+    }
+
+    .outside-bubble-btn.discord-btn {
+      color: #cbd5e1;
+    }
+
+    .outside-bubble-btn.discord-btn:hover {
+      background: rgba(88, 101, 242, 0.2);
+      border-color: var(--discord-color);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(88, 101, 242, 0.35);
+    }
+
+    .outside-bubble-btn.donate-btn {
+      color: #cbd5e1;
+    }
+
+    .outside-bubble-btn.donate-btn:hover {
+      background: rgba(244, 63, 94, 0.2);
+      border-color: var(--donate-color);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.35);
+    }
+
+    .outside-bubble-btn.submit-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+      color: #03080e;
+      border: none;
+      font-weight: 700;
+    }
+
+    .outside-bubble-btn.submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 229, 153, 0.4);
+      color: #000;
+    }
+
+    .donate-icon {
+      color: var(--donate-color);
+      font-size: 18px;
+    }
+
+    .search-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 8, 12, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 8vh;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+      z-index: 2000;
+    }
+
+    .search-modal.active {
       opacity: 1;
       visibility: visible;
     }
 
-    .modal-frame {
-      background: #0b0e17;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      width: 100%;
-      max-width: 620px;
-      border-radius: 26px;
-      box-shadow: 0 36px 90px rgba(0, 0, 0, 0.9);
-      overflow: hidden;
-      transform: scale(0.95) translateY(16px);
-      transition: all 0.28s var(--ease);
+    .search-container {
+      width: 90%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transform: translateY(-20px) scale(0.95);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .modal-viewport.open .modal-frame {
+    .search-modal.active .search-container {
+      transform: translateY(0) scale(1);
+    }
+
+    .search-presets-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .presets-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .preset-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--bubble-border);
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .preset-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .preset-pill.active {
+      background: var(--accent-cyan);
+      color: #03080e;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.4);
+    }
+
+    .search-box-popup {
+      background: rgba(22, 24, 34, 0.95);
+      border: 1px solid var(--bubble-border);
+      border-radius: 24px;
+      padding: 12px 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-box-popup .material-symbols-outlined {
+      color: var(--accent-cyan);
+      font-size: 24px;
+    }
+
+    .search-box-popup input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 1.05rem;
+      font-family: inherit;
+    }
+
+    .close-search-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 50%;
+      transition: color 0.2s ease;
+    }
+
+    .close-search-btn:hover {
+      color: #fff;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.8);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-box {
+      background: #111218;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 580px;
+      border-radius: 26px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+      transform: scale(0.95) translateY(12px);
+      transition: transform 0.26s ease;
+      overflow: hidden;
+    }
+
+    .modal-backdrop.open .modal-box {
       transform: scale(1) translateY(0);
     }
 
-    .frame-header {
+    .modal-top {
       padding: 22px 26px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
@@ -417,374 +472,337 @@
       justify-content: space-between;
     }
 
-    .frame-header h3 {
-      font-size: 1.18rem;
-      font-weight: 800;
+    .modal-top h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
       letter-spacing: -0.02em;
     }
 
-    .frame-header p {
+    .modal-top p {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: var(--text-dim);
       margin-top: 3px;
     }
 
-    .close-circle {
+    .modal-exit-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
       width: 32px;
       height: 32px;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
+      color: var(--text-dim);
       cursor: pointer;
-      transition: all 0.2s var(--ease);
+      transition: all 0.2s ease;
     }
 
-    .close-circle:hover {
+    .modal-exit-btn:hover {
       background: rgba(255, 255, 255, 0.12);
-      color: #fff;
+      color: #ffffff;
       transform: rotate(90deg);
     }
 
-    .intake-matrix {
+    .modal-grid-cards {
       padding: 22px 26px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
 
-    .intake-node {
-      background: #111522;
+    .intake-category-card {
+      background: #161822;
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 16px;
-      padding: 15px;
+      padding: 16px;
       text-decoration: none;
       color: inherit;
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      transition: all 0.22s var(--ease);
+      transition: all 0.2s ease;
     }
 
-    .intake-node:hover {
-      border-color: var(--cyan);
-      background: #161c2e;
+    .intake-category-card:hover {
+      border-color: rgba(0, 242, 254, 0.45);
+      background: #1c202d;
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 0 20px var(--cyan-glow);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.12);
     }
 
-    .node-symbol {
+    .card-square-icon {
       width: 38px;
       height: 38px;
-      background: #080a11;
+      background: #0d0e14;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--cyan);
       flex-shrink: 0;
-      transition: border-color 0.2s var(--ease);
+      color: var(--accent-cyan);
     }
 
-    .intake-node:hover .node-symbol {
-      border-color: var(--cyan);
+    .card-square-icon .material-symbols-outlined {
+      font-size: 20px;
     }
 
-    .node-symbol svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .node-text-title {
-      font-size: 0.92rem;
+    .card-headline {
+      font-size: 0.94rem;
       font-weight: 700;
-      color: #fff;
+      color: #ffffff;
     }
 
-    .node-text-desc {
+    .card-subtext {
       font-size: 0.74rem;
-      color: var(--text-muted);
+      color: var(--text-dim);
       margin-top: 3px;
       line-height: 1.35;
     }
 
-    .frame-footer {
-      padding: 14px 26px;
-      background: #080a11;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-    }
-
-    @media (max-width: 1040px) {
-      .nav-links-dock { overflow-x: auto; scrollbar-width: none; }
-      .nav-links-dock::-webkit-scrollbar { display: none; }
-      .pop-search-bar { right: 20px; left: 20px; width: auto; }
-      .intake-matrix { grid-template-columns: 1fr; }
+    @media (max-width: 990px) {
+      .header-wrapper {
+        flex-wrap: wrap;
+      }
+      .bubble-nav {
+        min-width: 0;
+        width: 100%;
+      }
+      .mega-menu {
+        border-radius: 20px;
+        flex-wrap: wrap;
+        width: calc(100vw - 40px);
+        justify-content: center;
+      }
+      .modal-grid-cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header class="main-nav-bar">
-    <a href="index.html" class="brand-group">
-      <div class="brand-cube">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"></path>
-          <path d="M9 12l2 2 4-4"></path>
-        </svg>
+  <div class="header-wrapper">
+    <header class="bubble-nav">
+      <div class="logo">
+        <a href="index.html">Sentry<span>DB</span></a>
       </div>
-      <div class="brand-text">Sentry<span>DB</span></div>
-    </a>
 
-    <nav class="nav-links-dock">
-      <a href="index.html" class="nav-link-btn active">Home</a>
+      <nav>
+        <ul class="nav-links">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link active">Home</a>
+          </li>
 
-      <div class="hub-dropdown-wrapper" id="hubDropdown">
-        <button class="nav-link-btn hub-trigger-btn" id="hubTriggerBtn" type="button">
-          <span>Hub</span>
-          <svg class="arrow-icon" viewBox="0 0 24 24">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+          <li class="nav-item hub-dropdown">
+            <a href="javascript:void(0)" class="nav-link">
+              Hub <span class="arrow-down">▼</span>
+            </a>
+            <div class="mega-menu">
+              <button type="button" class="category-pill active" onclick="switchCategory('ALL', this)">All Registry</button>
+              <button type="button" class="category-pill" onclick="switchCategory('ANIME', this)">Anime</button>
+              <button type="button" class="category-pill" onclick="switchCategory('MANGA', this)">Manga</button>
+              <button type="button" class="category-pill" onclick="switchCategory('ANIMATIONS', this)">Animations</button>
+              <button type="button" class="category-pill" onclick="switchCategory('TOOLS', this)">Tools</button>
+              <button type="button" class="category-pill" onclick="switchCategory('SITES', this)">Sites</button>
+              <button type="button" class="category-pill" onclick="switchCategory('PEOPLE', this)">People</button>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a href="#new-added" class="nav-link">New Added</a>
+          </li>
+          <li class="nav-item">
+            <a href="policy.html" class="nav-link">Policy</a>
+          </li>
+          <li class="nav-item">
+            <a href="#contact" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-action-group">
+        <button type="button" class="dice-btn" id="randomRollBtn" title="Random Record">
+          <span class="material-symbols-outlined">casino</span>
         </button>
-        <div class="hub-flyout-panel" id="hubMenu">
-          <button class="hub-item selected" data-category="all">
-            <span>All Registry</span>
-            <span class="hub-item-tag">ALL</span>
-          </button>
-          <button class="hub-item" data-category="anime">
-            <span>Anime</span>
-            <span class="hub-item-tag">MEDIA</span>
-          </button>
-          <button class="hub-item" data-category="manga">
-            <span>Manga</span>
-            <span class="hub-item-tag">PRINT</span>
-          </button>
-          <button class="hub-item" data-category="animations">
-            <span>Animations</span>
-            <span class="hub-item-tag">3D/SHORTS</span>
-          </button>
-          <button class="hub-item" data-category="tools">
-            <span>Tools</span>
-            <span class="hub-item-tag">SOFTWARE</span>
-          </button>
-          <button class="hub-item" data-category="sites">
-            <span>Sites</span>
-            <span class="hub-item-tag">INDEXES</span>
-          </button>
-          <button class="hub-item" data-category="people">
-            <span>People</span>
-            <span class="hub-item-tag">STAFF</span>
-          </button>
+
+        <button type="button" class="search-btn" id="openSearchBtn" aria-label="Open Search">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="outside-btn-group">
+      <a href="https://discord.com" target="_blank" rel="noopener" class="outside-bubble-btn discord-btn" title="Join our Discord">
+        <svg viewBox="0 0 127.14 96.36">
+          <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.86,53,48.81,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+        </svg>
+        <span>Discord</span>
+      </a>
+
+      <a href="#donate" class="outside-bubble-btn donate-btn" title="Support SentryDB">
+        <span class="material-symbols-outlined donate-icon">favorite</span>
+        <span>Donate</span>
+      </a>
+
+      <button type="button" class="outside-bubble-btn submit-btn" id="openSubmitModalBtn" title="Submit Record">
+        <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+        <span>Submit</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-presets-bar">
+        <div class="presets-group">
+          <button type="button" class="preset-pill active" data-preset="all">All Registry</button>
+          <button type="button" class="preset-pill" data-preset="anime">Anime</button>
+          <button type="button" class="preset-pill" data-preset="manga">Manga</button>
+          <button type="button" class="preset-pill" data-preset="animations">Animations</button>
+          <button type="button" class="preset-pill" data-preset="tools">Tools</button>
+          <button type="button" class="preset-pill" data-preset="sites">Sites</button>
+          <button type="button" class="preset-pill" data-preset="people">People</button>
         </div>
       </div>
 
-      <a href="#new-added" class="nav-link-btn">New Added</a>
-      <a href="#policy" class="nav-link-btn">Policy</a>
-      <a href="#contact" class="nav-link-btn">Contact</a>
-    </nav>
-
-    <div class="actions-cluster">
-      <button class="icon-click-btn" id="randomEntryBtn" title="Random Database Record" type="button">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
-          <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"></circle>
-          <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"></circle>
-        </svg>
-      </button>
-
-      <button class="icon-click-btn" id="searchTriggerBtn" title="Search (Press /)" type="button">
-        <svg viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-        </svg>
-      </button>
-
-      <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="icon-click-btn discord-btn" title="Community Discord">
-        <svg viewBox="0 0 24 24">
-          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-        </svg>
-      </a>
-
-      <a href="#donate" class="icon-click-btn donate-btn" title="Donate">
-        <svg viewBox="0 0 24 24">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-      </a>
-
-      <button class="btn-propose-cta" id="openSubmitModalBtn" type="button">
-        <span>+ Submit</span>
-      </button>
+      <div class="search-box-popup">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="searchInput" placeholder="Search entries, tags, IDs, creators..." autocomplete="off" />
+        <button type="button" class="close-search-btn" id="closeSearchBtn" aria-label="Close Search">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
     </div>
+  </div>
 
-    <div class="pop-search-bar" id="searchBarPopup">
-      <input type="text" id="quickSearchInput" placeholder="Search database records, tags, IDs..." autocomplete="off">
-      <span class="kbd-chip">/</span>
-    </div>
-  </header>
-
-  <div class="modal-viewport" id="intakeModal">
-    <div class="modal-frame">
-      <div class="frame-header">
+  <!-- Intake Modal -->
+  <div class="modal-backdrop" id="submitModal">
+    <div class="modal-box">
+      <div class="modal-top">
         <div>
           <h3>Submit to SentryDB</h3>
-          <p>Choose an intake domain to contribute structured metadata</p>
+          <p>Choose an intake category to propose verified records</p>
         </div>
-        <button class="close-circle" id="closeSubmitModalBtn" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+        <button class="modal-exit-btn" id="closeSubmitModalBtn" type="button">
+          <span class="material-symbols-outlined" style="font-size: 18px;">close</span>
         </button>
       </div>
 
-      <div class="intake-matrix">
-        <a href="submit/anime.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      <div class="modal-grid-cards">
+        <a href="submit/anime.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">play_circle</span>
           </div>
           <div>
-            <div class="node-text-title">Anime</div>
-            <div class="node-text-desc">Series, feature films, OVAs & specials</div>
+            <div class="card-headline">Anime</div>
+            <div class="card-subtext">Series, films, OVAs & web specials</div>
           </div>
         </a>
 
-        <a href="submit/manga.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <a href="submit/manga.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">menu_book</span>
           </div>
           <div>
-            <div class="node-text-title">Manga</div>
-            <div class="node-text-desc">Print manga, light novels & manhwa</div>
+            <div class="card-headline">Manga</div>
+            <div class="card-subtext">Print manga, light novels & manhwa</div>
           </div>
         </a>
 
-        <a href="submit/animations.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+        <a href="submit/animations.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">movie</span>
           </div>
           <div>
-            <div class="node-text-title">Animations</div>
-            <div class="node-text-desc">Indie shorts, 3D reels & web films</div>
+            <div class="card-headline">Animations</div>
+            <div class="card-subtext">Indie projects, 3D reels & shorts</div>
           </div>
         </a>
 
-        <a href="submit/tools.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+        <a href="submit/tools.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">build</span>
           </div>
           <div>
-            <div class="node-text-title">Tools</div>
-            <div class="node-text-desc">Engines, 2D/3D creation & utilities</div>
+            <div class="card-headline">Tools</div>
+            <div class="card-subtext">Engines, software & pipeline utilities</div>
           </div>
         </a>
 
-        <a href="submit/sites.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <a href="submit/sites.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">language</span>
           </div>
           <div>
-            <div class="node-text-title">Websites</div>
-            <div class="node-text-desc">Portals, reference archives & mirrors</div>
+            <div class="card-headline">Websites</div>
+            <div class="card-subtext">Portals, reference archives & mirrors</div>
           </div>
         </a>
 
-        <a href="submit/people.html" class="intake-node">
-          <div class="node-symbol">
-            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="submit/people.html" class="intake-category-card">
+          <div class="card-square-icon">
+            <span class="material-symbols-outlined">person</span>
           </div>
           <div>
-            <div class="node-text-title">People</div>
-            <div class="node-text-desc">Animators, directors, authors & cast</div>
+            <div class="card-headline">People</div>
+            <div class="card-subtext">Animators, directors, authors & cast</div>
           </div>
         </a>
-      </div>
-
-      <div class="frame-footer">
-        <span>Moderator audit required before automated git commit</span>
-        <span>ESC to dismiss</span>
       </div>
     </div>
   </div>
 
   <script>
-    const hubDropdown = document.getElementById('hubDropdown');
-    const hubTriggerBtn = document.getElementById('hubTriggerBtn');
-    const hubItems = document.querySelectorAll('.hub-item');
+    const searchModal = document.getElementById('searchModal');
+    const openSearchBtn = document.getElementById('openSearchBtn');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+    const searchInput = document.getElementById('searchInput');
 
-    hubTriggerBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      hubDropdown.classList.toggle('open');
+    openSearchBtn.addEventListener('click', () => {
+      searchModal.classList.add('active');
+      setTimeout(() => searchInput.focus(), 100);
     });
 
-    hubItems.forEach(item => {
-      item.addEventListener('click', () => {
-        hubItems.forEach(i => i.classList.remove('selected'));
-        item.classList.add('selected');
-        hubDropdown.classList.remove('open');
-        window.dispatchEvent(new CustomEvent('catalogFiltered', { detail: item.dataset.category }));
-      });
+    function closeSearch() {
+      searchModal.classList.remove('active');
+      searchInput.value = '';
+    }
+
+    closeSearchBtn.addEventListener('click', closeSearch);
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) closeSearch();
     });
 
-    const searchTriggerBtn = document.getElementById('searchTriggerBtn');
-    const searchBarPopup = document.getElementById('searchBarPopup');
-    const quickSearchInput = document.getElementById('quickSearchInput');
-
-    const toggleSearch = () => {
-      const open = searchBarPopup.classList.toggle('open');
-      if (open) quickSearchInput.focus();
-    };
-
-    searchTriggerBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleSearch();
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!hubDropdown.contains(e.target)) {
-        hubDropdown.classList.remove('open');
-      }
-      if (!searchBarPopup.contains(e.target) && !searchTriggerBtn.contains(e.target)) {
-        searchBarPopup.classList.remove('open');
-      }
-    });
-
-    const intakeModal = document.getElementById('intakeModal');
+    const submitModal = document.getElementById('submitModal');
     const openSubmitModalBtn = document.getElementById('openSubmitModalBtn');
     const closeSubmitModalBtn = document.getElementById('closeSubmitModalBtn');
 
-    openSubmitModalBtn.addEventListener('click', () => intakeModal.classList.add('open'));
-    closeSubmitModalBtn.addEventListener('click', () => intakeModal.classList.remove('open'));
-    intakeModal.addEventListener('click', (e) => {
-      if (e.target === intakeModal) intakeModal.classList.remove('open');
+    openSubmitModalBtn.addEventListener('click', () => submitModal.classList.add('open'));
+    closeSubmitModalBtn.addEventListener('click', () => submitModal.classList.remove('open'));
+    submitModal.addEventListener('click', (e) => {
+      if (e.target === submitModal) submitModal.classList.remove('open');
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        intakeModal.classList.remove('open');
-        searchBarPopup.classList.remove('open');
-        hubDropdown.classList.remove('open');
+        closeSearch();
+        submitModal.classList.remove('open');
       }
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
-        searchBarPopup.classList.add('open');
-        quickSearchInput.focus();
+        searchModal.classList.add('active');
+        setTimeout(() => searchInput.focus(), 100);
       }
     });
+
+    function switchCategory(cat, btn) {
+      document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      window.dispatchEvent(new CustomEvent('catalogFiltered', { detail: cat }));
+    }
   </script>
 </body>
 </html>
