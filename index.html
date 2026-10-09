@@ -121,20 +121,14 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .category-chips-dock {
+    .nav-links-dock {
       display: flex;
       align-items: center;
       gap: 6px;
-      overflow-x: auto;
-      scrollbar-width: none;
       padding: 0 8px;
     }
 
-    .category-chips-dock::-webkit-scrollbar {
-      display: none;
-    }
-
-    .chip-btn {
+    .nav-link-btn {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.06);
       color: var(--text-muted);
@@ -146,22 +140,111 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      text-decoration: none;
       transition: all 0.18s var(--ease);
       white-space: nowrap;
       font-family: inherit;
     }
 
-    .chip-btn:hover {
+    .nav-link-btn:hover {
       color: #fff;
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    .chip-btn.active {
+    .nav-link-btn.active {
       background: #171d2b;
       color: #fff;
       border-color: var(--cyan);
       box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    .hub-dropdown-wrapper {
+      position: relative;
+    }
+
+    .hub-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hub-trigger-btn .arrow-icon {
+      width: 10px;
+      height: 10px;
+      stroke: var(--text-muted);
+      stroke-width: 2.4;
+      fill: none;
+      transition: transform 0.25s var(--ease), stroke 0.2s var(--ease);
+    }
+
+    .hub-dropdown-wrapper:hover .hub-trigger-btn .arrow-icon,
+    .hub-dropdown-wrapper.open .hub-trigger-btn .arrow-icon {
+      stroke: #fff;
+    }
+
+    .hub-dropdown-wrapper.open .hub-trigger-btn .arrow-icon {
+      transform: rotate(180deg);
+    }
+
+    .hub-flyout-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 220px;
+      background: rgba(11, 14, 22, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 6px;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--cyan-glow);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      opacity: 0;
+      transform: translateY(-6px) scale(0.97);
+      pointer-events: none;
+      transition: all 0.2s var(--ease);
+      z-index: 1100;
+    }
+
+    .hub-dropdown-wrapper.open .hub-flyout-panel {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .hub-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: all 0.16s var(--ease);
+    }
+
+    .hub-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding-left: 16px;
+    }
+
+    .hub-item.selected {
+      color: var(--cyan);
+      background: rgba(0, 242, 254, 0.08);
+    }
+
+    .hub-item-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
     }
 
     .actions-cluster {
@@ -445,7 +528,8 @@
     }
 
     @media (max-width: 1040px) {
-      .category-chips-dock { margin: 0 10px; }
+      .nav-links-dock { overflow-x: auto; scrollbar-width: none; }
+      .nav-links-dock::-webkit-scrollbar { display: none; }
       .pop-search-bar { right: 20px; left: 20px; width: auto; }
       .intake-matrix { grid-template-columns: 1fr; }
     }
@@ -464,14 +548,51 @@
       <div class="brand-text">Sentry<span>DB</span></div>
     </a>
 
-    <nav class="category-chips-dock">
-      <button class="chip-btn active" data-category="all">All Registry</button>
-      <button class="chip-btn" data-category="anime">Anime</button>
-      <button class="chip-btn" data-category="manga">Manga</button>
-      <button class="chip-btn" data-category="animations">Animations</button>
-      <button class="chip-btn" data-category="tools">Tools</button>
-      <button class="chip-btn" data-category="sites">Sites</button>
-      <button class="chip-btn" data-category="people">People</button>
+    <nav class="nav-links-dock">
+      <a href="index.html" class="nav-link-btn active">Home</a>
+
+      <div class="hub-dropdown-wrapper" id="hubDropdown">
+        <button class="nav-link-btn hub-trigger-btn" id="hubTriggerBtn" type="button">
+          <span>Hub</span>
+          <svg class="arrow-icon" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="hub-flyout-panel" id="hubMenu">
+          <button class="hub-item selected" data-category="all">
+            <span>All Registry</span>
+            <span class="hub-item-tag">ALL</span>
+          </button>
+          <button class="hub-item" data-category="anime">
+            <span>Anime</span>
+            <span class="hub-item-tag">MEDIA</span>
+          </button>
+          <button class="hub-item" data-category="manga">
+            <span>Manga</span>
+            <span class="hub-item-tag">PRINT</span>
+          </button>
+          <button class="hub-item" data-category="animations">
+            <span>Animations</span>
+            <span class="hub-item-tag">3D/SHORTS</span>
+          </button>
+          <button class="hub-item" data-category="tools">
+            <span>Tools</span>
+            <span class="hub-item-tag">SOFTWARE</span>
+          </button>
+          <button class="hub-item" data-category="sites">
+            <span>Sites</span>
+            <span class="hub-item-tag">INDEXES</span>
+          </button>
+          <button class="hub-item" data-category="people">
+            <span>People</span>
+            <span class="hub-item-tag">STAFF</span>
+          </button>
+        </div>
+      </div>
+
+      <a href="#new-added" class="nav-link-btn">New Added</a>
+      <a href="#policy" class="nav-link-btn">Policy</a>
+      <a href="#contact" class="nav-link-btn">Contact</a>
     </nav>
 
     <div class="actions-cluster">
@@ -601,12 +722,21 @@
   </div>
 
   <script>
-    const chipBtns = document.querySelectorAll('.chip-btn');
-    chipBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        chipBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        window.dispatchEvent(new CustomEvent('catalogFiltered', { detail: btn.dataset.category }));
+    const hubDropdown = document.getElementById('hubDropdown');
+    const hubTriggerBtn = document.getElementById('hubTriggerBtn');
+    const hubItems = document.querySelectorAll('.hub-item');
+
+    hubTriggerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hubDropdown.classList.toggle('open');
+    });
+
+    hubItems.forEach(item => {
+      item.addEventListener('click', () => {
+        hubItems.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        hubDropdown.classList.remove('open');
+        window.dispatchEvent(new CustomEvent('catalogFiltered', { detail: item.dataset.category }));
       });
     });
 
@@ -625,6 +755,9 @@
     });
 
     document.addEventListener('click', (e) => {
+      if (!hubDropdown.contains(e.target)) {
+        hubDropdown.classList.remove('open');
+      }
       if (!searchBarPopup.contains(e.target) && !searchTriggerBtn.contains(e.target)) {
         searchBarPopup.classList.remove('open');
       }
@@ -644,6 +777,7 @@
       if (e.key === 'Escape') {
         intakeModal.classList.remove('open');
         searchBarPopup.classList.remove('open');
+        hubDropdown.classList.remove('open');
       }
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
